@@ -1,4 +1,4 @@
-import phoneNumberModule from '../utils/phoneModules'
+import phoneNumberModule from '../utils/phoneModules';
 
 /**
  * This a route controller that handles getting

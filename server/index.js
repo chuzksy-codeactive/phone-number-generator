@@ -15,11 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('./client/dist/'));
 
 app.use('/api/v1', phoneBook);
-app.use('/', (req, res) => {
-  return res.status(200).json({
-    message: 'Sucessfully'
-  });
-});
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening to port ${process.env.PORT}`);

@@ -1,6 +1,12 @@
 import path from 'path';
 import fs from 'fs';
 
+const phoneBookFile = {
+  development: path.join(__dirname, '../bin/phoneBookDB.csv'),
+  production: path.join(__dirname, '../bin/phoneBookProdDB.csv'),
+  test: path.join(__dirname, '../bin/phoneBookTestDB.csv')
+};
+
 /**
  * This function generate x amount of phone numbers
  * 
@@ -47,8 +53,8 @@ const sortPhoneNumbers = (sortType, phoneNumbers) => {
  * @returns {Array}
  */
 const readPhoneNumbersFromFile = () => {
-  fs.openSync(path.join(__dirname, '../bin/phoneBookDB.csv'), 'a+');
-  const readFile = fs.readFileSync(path.join(__dirname, '../bin/phoneBookDB.csv'), { encoding: 'utf8' });
+  fs.openSync(phoneBookFile[process.env.NODE_ENV], 'a+');
+  const readFile = fs.readFileSync(phoneBookFile[process.env.NODE_ENV], { encoding: 'utf8' });
 
   return readFile;
 };
@@ -64,7 +70,7 @@ const savePhoneNumberToFile = (phoneNumbers) => {
   const joinNumbers = [...phoneNumbers, readPhoneNumbersFromFile()];
   const makeNumbersUnique = Array.from(new Set(joinNumbers));
 
-  fs.writeFileSync(path.join(__dirname, '../bin/phoneBookDB.csv'), makeNumbersUnique);
+  fs.writeFileSync(phoneBookFile[process.env.NODE_ENV], makeNumbersUnique);
 
   return makeNumbersUnique;
 }
@@ -92,7 +98,7 @@ const getMinMaxPhoneNumber = (phoneNumbers) => {
  * @returns {void}
  */
 const cleanFile = () => {
-  fs.writeFileSync(paht.join(__dirname, '../bin/phoneBookDB.csv'), '');
+  fs.writeFileSync(phoneBookFile[process.env.NODE_ENV], '');
 };
 
 const phoneNumberModule = {
