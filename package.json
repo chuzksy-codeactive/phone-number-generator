@@ -9,7 +9,7 @@
     "build": "babel server --out-dir server/dist",
     "start:prod": "node server/dist/index.js",
     "test": "cross-env NODE_ENV=test jest --no-cache --forceExit",
-    "coverage": "--coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "--coverage && cat ./coverage/lcov.info | coveralls"
   },
   "author": "chuzksy-codeactive",
   "license": "ISC",
