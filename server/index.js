@@ -18,6 +18,6 @@ app.use('/api/v1', phoneBook);
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening to port ${process.env.PORT}`);
-})
+});
 
 export default app;

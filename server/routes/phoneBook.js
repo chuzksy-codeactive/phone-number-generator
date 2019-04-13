@@ -1,5 +1,5 @@
-import phoneBookController from '../controllers/phoneBookController';
 import express from 'express';
+import phoneBookController from '../controllers/phoneBookController';
 
 const app = express();
 const router = express.Router();
