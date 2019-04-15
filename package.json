@@ -7,7 +7,7 @@
     "server:dev": "nodemon --exec babel-node server/index.js",
     "start:client": "webpack-dev-server --config ./client/config/webpack.dev.js --mode development",
     "webpack": "webpack --config ./client/config/webpack.prod.js",
-    "post-install": "npm run build",
+    "postinstall": "npm run webpack",
     "build": "rimraf server/dist/ && babel server --out-dir server/dist --copy-files && webpack --config ./client/config/webpack.prod.js",
     "start": "node server/dist/index.js",
     "test": "cross-env NODE_ENV=test jest --no-cache --forceExit"
@@ -68,5 +68,8 @@
     "redux-thunk": "^2.3.0",
     "rimraf": "^2.6.3",
     "supertest": "^4.0.2"
+  },
+  "engines": {
+    "node": "11.x"
   }
 }
