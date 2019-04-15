@@ -16,8 +16,11 @@ app.use(express.static('./client/dist/'));
 
 app.use('/api/v1', phoneBook);
 
-app.listen(process.env.PORT, () => {
-  console.log(`App listening to port ${process.env.PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(process.env.PORT, () => {
+    console.log(`App listening to port ${process.env.PORT}`);
+  });
+}
+
 
 export default app;

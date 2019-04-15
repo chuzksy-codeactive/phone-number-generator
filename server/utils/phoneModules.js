@@ -25,29 +25,6 @@ const sortPhoneNumbers = (sortType, phoneNumbers) => {
 };
 
 /**
- * This function generate x amount of phone numbers
- *
- * @param {number} limit
- *
- * @returns {Array}
- */
-const generatePhoneNumbers = (limit = 10, sortType = null) => {
-  const phoneNumbers = [];
-  let randomPhoneNumber = 0;
-
-  const generate = limit > 10000 ? 10000 : limit;
-
-  for (let i = 1; i <= generate; i += 1) {
-    randomPhoneNumber = Math.floor(100000000 + Math.random() * 900000000);
-    phoneNumbers.push(`0${randomPhoneNumber}`);
-  }
-
-  return (sortType === 'ASC' || sortType === 'DESC')
-    ? sortPhoneNumbers(sortType, phoneNumbers)
-    : phoneNumbers;
-};
-
-/**
  * This function reads all the phone numbers
  * from the csv file
  *
@@ -77,6 +54,31 @@ const savePhoneNumberToFile = (phoneNumbers) => {
 };
 
 /**
+ * This function generate x amount of phone numbers
+ *
+ * @param {number} limit
+ *
+ * @returns {Array}
+ */
+const generatePhoneNumbers = (limit = 10, sortType = null) => {
+  const phoneNumbers = [];
+  let randomPhoneNumber = 0;
+
+  const generate = limit > 10000 ? 10000 : limit;
+
+  for (let i = 1; i <= generate; i += 1) {
+    randomPhoneNumber = Math.floor(100000000 + Math.random() * 900000000);
+    phoneNumbers.push(`0${randomPhoneNumber}`);
+  }
+
+  savePhoneNumberToFile(phoneNumbers);
+
+  return (sortType === 'ASC' || sortType === 'DESC')
+    ? sortPhoneNumbers(sortType, phoneNumbers)
+    : phoneNumbers;
+};
+
+/**
  * This function returns the maximum or minimum phone number
  * from a list of phone numbers
  *
@@ -100,6 +102,7 @@ const getMinMaxPhoneNumber = (phoneNumbers) => {
  */
 const cleanFile = () => {
   fs.writeFileSync(phoneBookFile[process.env.NODE_ENV], '');
+  return [];
 };
 
 const phoneNumberModule = {

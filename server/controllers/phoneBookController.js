@@ -31,19 +31,31 @@ const getPhoneNumbers = (req, res) => {
  * @returns {object}
  */
 const savePhoneNumbersToFile = (req, res) => {
-  const { limit, sort } = req.query;
-  const phoneNumbers = phoneNumberModule.generatePhoneNumbers(limit, sort);
-  const savedPhoneNumbers = phoneNumberModule.savePhoneNumberToFile(phoneNumbers);
+  const { sort } = req.query;
+  const genPhoneNumbers = phoneNumberModule.generatePhoneNumbers(0, sort);
+  const savedNumbers = phoneNumberModule.savePhoneNumberToFile(genPhoneNumbers);
+  const phoneNumbers = savedNumbers.toString().split(',').filter(number => number !== '');
+  const getMinMaxPhoneNumbers = phoneNumberModule.getMinMaxPhoneNumber(phoneNumbers);
 
   return res.status(201).json({
-    data: { savedPhoneNumbers },
+    data: { phoneNumbers, getMinMaxPhoneNumbers },
     message: 'Successfully saved phone numbers into the file'
+  });
+};
+
+const clearCSVFile = (req, res) => {
+  const result = phoneNumberModule.cleanFile();
+
+  return res.status(202).json({
+    data: { phoneNumbers: result, getMinMaxPhoneNumbers: { min: '0', max: '0' } },
+    message: 'Successfully deleted phone numbers'
   });
 };
 
 const phoneBookController = {
   getPhoneNumbers,
-  savePhoneNumbersToFile
+  savePhoneNumbersToFile,
+  clearCSVFile
 };
 
 export default phoneBookController;

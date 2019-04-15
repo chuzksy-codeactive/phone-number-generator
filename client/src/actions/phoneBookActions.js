@@ -1,6 +1,6 @@
 /* eslint-disable valid-jsdoc */
 import axios from 'axios';
-import { GENERATE_TELEPHONE_NUMBER_SUCCESS, GET_ALL_TELEPHONE_NUMBER_SUCCESS } from './actionTypes';
+import { GENERATE_TELEPHONE_NUMBER_SUCCESS, GET_ALL_TELEPHONE_NUMBER_SUCCESS, DELETE_ALL_PHONE_NUMBER_SUCCESS } from './actionTypes';
 
 /**
  * This function dispatches actions for
@@ -29,6 +29,17 @@ const getAllPhoneNumbersFromFile = phoneNumberFromFile => ({
 });
 
 /**
+ * This functions dispatches actions to clear the content
+ * the CSV file
+ *
+ * @returns {action}
+ */
+const clearCSVFile = payload => ({
+  type: DELETE_ALL_PHONE_NUMBER_SUCCESS,
+  payload
+});
+
+/**
  * A thunk function for getting all generated
  * phone numbers
  *
@@ -53,18 +64,31 @@ const getPhoneNumbers = (limit, sort) => dispatch => axios
  *
  * @returns {function} dispatch
  */
-const getSavePhoneNumbers = (limit, sort) => dispatch => axios
-  .post(`localhost:8080/api/v1/phone-numbers-list?sort=${sort}&limit=${limit}`)
+const getSavePhoneNumbers = () => dispatch => axios
+  .post('/api/v1/phone-numbers-list')
   .then((res) => {
     dispatch(getAllPhoneNumbersFromFile(res.data));
   })
   .catch(err => err);
+
+/**
+ * A redux thunk for clearing all the content of
+ * a file
+ *
+ * @return {function} dispatch
+ */
+const clearFileContent = () => dispatch => axios
+  .delete('/api/v1/clear-phone-numbers')
+  .then((res) => {
+    dispatch(clearCSVFile(res.data));
+  });
 
 const phoneBookActions = {
   generatePhoneNumbers,
   getAllPhoneNumbersFromFile,
   getPhoneNumbers,
   getSavePhoneNumbers,
+  clearFileContent
 };
 
 export default phoneBookActions;

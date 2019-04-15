@@ -56,7 +56,19 @@ describe('PhoneBook Controller', () => {
         if (err) throw err;
         expect(res.status).toBe(201);
         expect(res.body).toHaveProperty('message', 'Successfully saved phone numbers into the file');
-        expect(res.body.data.savedPhoneNumbers).toHaveLength(11);
+        expect(res.body.data.phoneNumbers).toHaveLength(0);
+        done();
+      });
+  });
+
+  it('should clear all phone numbers in the csv file', (done) => {
+    request(app)
+      .delete('/api/v1/clear-phone-numbers')
+      .expect(202)
+      .end((err, res) => {
+        if (err) throw err;
+        expect(res.status).toBe(202);
+        expect(res.body).toHaveProperty('message', 'Successfully deleted phone numbers');
         done();
       });
   });
