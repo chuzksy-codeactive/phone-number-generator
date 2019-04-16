@@ -1,10 +1,10 @@
 import request from 'supertest';
 
-import app from '../../server/index';
+import app from '../index';
 import phoneNumberModule from '../utils/phoneModules';
 
 describe('PhoneBook Controller', () => {
-  beforeEach(done => {
+  beforeEach((done) => {
     phoneNumberModule.cleanFile();
     done();
   });
@@ -14,7 +14,7 @@ describe('PhoneBook Controller', () => {
       .get('/api/v1/phone-numbers')
       .expect(200)
       .end((err, res) => {
-        if(err) throw err;
+        if (err) throw err;
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('message', 'Successfully fetches phone numbers');
         expect(res.body.data.phoneNumbers).toHaveLength(10);
@@ -27,7 +27,7 @@ describe('PhoneBook Controller', () => {
       .get('/api/v1/phone-numbers?sort=ASC&limit=100')
       .expect(200)
       .end((err, res) => {
-        if(err) throw err;
+        if (err) throw err;
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('message', 'Successfully fetches phone numbers');
         expect(res.body.data.phoneNumbers).toHaveLength(100);
@@ -40,7 +40,7 @@ describe('PhoneBook Controller', () => {
       .get('/api/v1/phone-numbers?sort=DESC&limit=100')
       .expect(200)
       .end((err, res) => {
-        if(err) throw err;
+        if (err) throw err;
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('message', 'Successfully fetches phone numbers');
         expect(res.body.data.phoneNumbers).toHaveLength(100);
@@ -53,25 +53,23 @@ describe('PhoneBook Controller', () => {
       .post('/api/v1/phone-numbers-list')
       .expect(201)
       .end((err, res) => {
-        if(err) throw err;
+        if (err) throw err;
         expect(res.status).toBe(201);
         expect(res.body).toHaveProperty('message', 'Successfully saved phone numbers into the file');
-        expect(res.body.data.savedPhoneNumbers).toHaveLength(11);
+        expect(res.body.data.phoneNumbers).toHaveLength(0);
         done();
       });
   });
 
-  it('should hit the ', (done) => {
+  it('should clear all phone numbers in the csv file', (done) => {
     request(app)
-      .post('/api/v1/phone-numbers-list')
-      .expect(201)
+      .delete('/api/v1/clear-phone-numbers')
+      .expect(202)
       .end((err, res) => {
-        if(err) throw err;
-        expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('message', 'Successfully saved phone numbers into the file');
-        expect(res.body.data.savedPhoneNumbers).toHaveLength(11);
+        if (err) throw err;
+        expect(res.status).toBe(202);
+        expect(res.body).toHaveProperty('message', 'Successfully deleted phone numbers');
         done();
       });
   });
 });
-
