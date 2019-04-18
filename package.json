@@ -10,7 +10,8 @@
     "postinstall": "npm run webpack",
     "build": "rimraf server/dist/ && babel server --out-dir server/dist --copy-files && webpack --config ./client/config/webpack.prod.js",
     "start": "node server/dist/index.js",
-    "test": "cross-env NODE_ENV=test jest --no-cache --forceExit"
+    "test": "cross-env NODE_ENV=test jest --no-cache --forceExit",
+    "coveralls": "jest --coverage && cat coverage/lcov.info | coveralls"
   },
   "author": "chuzksy-codeactive",
   "license": "ISC",

@@ -13,7 +13,8 @@ module.exports = {
     '!client/src/routes/**',
     '!client/src/index.js',
     '!client/src/store/configureStore.js',
-    '!server/index.js'
+    '!server/index.js',
+    '!client/public/**'
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   moduleNameMapper: {
